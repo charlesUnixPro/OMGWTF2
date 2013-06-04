@@ -1,0 +1,227 @@
+0. Overview
+
+I will hypothesize that a common reason that large IT groups create major WTF
+events is a reluctance to admit ignorance of the problem domain. So in the
+OMGWTF2 example, the group has been tasked by creating a Business Decision
+Application, but no one in the group has any knowledge of how such an 
+application should work. On the other hand, they do know that bonuses, raises 
+and promotions come from pulling rabbits out of hats, not from admitting that
+you can not perform the assigned task.
+
+Thus, the following chain of events:
+
+  Task: Implement the Business Decision Process. 
+
+  Problem: Lack of understanding of the problem domain.
+
+  Response: We will learn about the domain, and build a solution from that
+            knowledge.
+
+  [WTF: Assuming that the information is acquirable in the allocated time-frame
+        and with the available resources.]
+
+  Procedure: Research existing solutions to understand the problem domain.
+
+  Results: Research finds an existing application, "Executive Decision Maker",
+           that seems to be relevant.
+
+  [WTF: Lack of understanding of the problem domain makes it difficult to
+        judge the relevance of the existing application.]
+
+  Response: Research the application in an effort to understand the underlying
+            algorithms.
+
+  Results: The application is abandon-ware. No design documents or related
+           materials can be located.
+
+  [WTF: Failure to abandon an outside solution with that has neither support
+        nor documentation nor even source code available.]
+
+  Response: Reverse engineer the application. Step 1: extract the application
+            from the distribution media.
+
+  [WTF: The distribution media is an Atari floppy disk (5") image file. 
+        Rather then digging up an Atari emulator, write code to analyze
+        the disk image. See readAtrFile() in omgwtf2.c.]
+
+  Results: Good. It's a BASIC file. Should be a piece of cake to analyze.
+           Write code to extract the BASIC file from the disk image.
+
+  [WTF: Rather then digging up an Atari emulator with a DOS ROM, write
+        code to extract a file from the disk image. See readBasicFile()
+        in omgwtf2.c.]
+
+  Results: Good. The contents of the .BAS file are available. Aah.. not so 
+           much. Atari BASIC files are stored tokenized, not as text.
+
+  Response: Write code to analyze the tokenized file.
+
+  [WTF: Rather then using an Atari emulator with a BASIC ROM and typing
+        "LIST", write code to de-tokenize. See analyzeBasicFile() in
+        omgwtf2.c.]
+
+  Results: Poor. The de-tokenized file has three comments; a Copyright and
+           and address of a deceased company. Since no one in the group has
+           ever seen Atari BASIC, there is little domain knowledge to be
+           gleaned from the de-tokenized code.
+
+  Response: Run the de-tokenized code to see if using the application will
+            help with understanding the problem domain.
+
+  [WTF: Just plain faulty reasoning. See interpret() in omgwtf2.c.]
+
+  Results: First attempt fails utterly. Parsing expressions is a subtle art. 
+
+  Response: Bring bison into play, because one of the engineers had just taken
+            the Coursera class from Stanford on compilers. See yylex() in
+            omgwtf2.c and atbas.y.]
+
+  [Sidebar: It's true, I really did take the course last year. It rocked.]
+
+  [WTF: The engineers have completely lost the narrative thread. They are
+        into well over a 1000 lines of code that have nothing to do with 
+        problem that needs to be solved.]
+
+  Results: The application runs, but is reliant on the graphics behavior
+           of the Atari platform for UI appearance.
+
+  Response: Emulate the behavior of the Atari ANTIC graphics chip with
+            ncurses.
+
+  [WTF: Digging the hole deeper. See setGraphicsMode(), setPosition(), 
+        setChannel(), print*() and doInput() in omgwtf2.c.]
+
+  Results: Good, the application runs and is usable. Declare the task
+           completed, and deliver the application to the executives.
+
+  [WTF: The application does meet the specification other then being
+        in approximately the same problem domain. The specification
+        said nothing about asking questions, which the delivered
+        application requires, and the specification said the acceptable
+        outputs are "Yes" and "No", while the delivered application
+        will output those responses, it will also respond with others,
+        such as "Concentrate and Ask Again Latter" [sic].
+
+        The application relies on third party software with no license
+        or support agreement in place.
+
+        The code was built piece-meal, literally with no idea with
+        how it was supposed to work, or even what it was supposed to do.
+        (This is quite literally true. At one point, I was considering
+        executing the BASIC program by writing a 6502 emulator to run
+        the BASIC ROM image.) 
+
+        This piece-meal approach makes the code very fragile. Only
+        enough Atari BASIC is implemented to run the application. The
+        slightest change to the application would most likely cause the
+        wheels to come off. Oddly enough, the original application has
+        a bug that does not occur in the emulator. If the original is
+        allowed to idle long enough, the HUE variable increments past 15,
+        causing the SETCOLOR statement to print an error on the display.
+        Since the emulator ignores the SETCOLOR statement, the error
+        doesn't occur.
+
+        The code is moderately well commented from a local point of view;
+        but has little or no documentation about structural issues, how
+        the pieces fit together, dependencies and constraints, making the
+        code fragile and un-maintainable, since all of the information
+        is locked away in some engineers mind instead of being recorded.
+        (Good for job security in a WTF environment, tho.)]
+
+Notes on coding specific WTFs
+
+1. Design issue: Every time the application runs, it extracts the tokenized
+application file from the disk image file. This should be done once as part
+of the build process, shipping a ".bas" file with the application instead of
+the ".atr" file.
+
+2. Code portability: Endedness issues in the .bas file are not identified.
+
+3. Code portability: Word size and sign issues are not identified.
+
+4. Bug: fatal*() routines call endwin() without checking gInit.
+
+5. Bug: Preprocessor symbols logfile and info are not documented.
+
+6. Comments: fatal*() routines are undocumented.
+
+7. Code quality: readAtrFile() contains undocumented magic numbers. For
+   example:
+
+       if (sizeof (struct header) != 16)
+
+8. Code readability: Capitalization of Operand #defines is inconsistent.
+
+9. Comments: Global variables set by analyzeBasicFile() are completely
+   undocumented.
+
+10. Comments: analyzeBasicFile() is 160 lines long, and has one comment.
+
+11. Code quality: Null terminated and counted strings are both used, but
+    are both referred to as 'char *' with distinction in the code.
+
+12. Comments: The "Parser state variables" are very fragile and are
+    undocumented.
+
+13. Comments: The "Graphics state variables" are undocumented.
+
+14: Comments: The "Graphics/text emulation" is undocumented; is neither
+    clear what is being emulated or how it is being emulated.
+
+15: Code quality: getSVarValue2() is used to extract sub-strings while
+    evaluating expressions, but relies on a single, statically allocated
+    buffer. If an expression had multiple sub-strings, the evaluation
+    would fail. The routine needs to allocate a buffer, and interpret()
+    needs to garbage collect the buffers each time through the yyparse()
+    loop.
+
+16: Code quality: evalOp(), evalFunc(), evalSop() and evalSFunc() only 
+    handle the operations that are used in the legacy application.
+
+17: Code quality: stringEq() uses strncasecmp() instead of strncmp()
+    because the Atari keyboard is uppercase, and the legacy application
+    assumes the the typed input will be uppercase. A better solution
+    would be to have doInput() do the appeasing.
+
+18: Documentation: The role of YYACCEPT in control flow emulation in
+    not documented.
+
+19: Code quality: The value of returnStackSize is arbitrary; I have
+    no idea what the correct value should be, due to utter failure to
+    research the issue.
+
+20: Emulator quality: The routine doFor() fails to either detect or
+    deal with nested FOR loops.
+
+21: Documentation: Magic numbers is doSlet():
+
+      memmove (variableTable [varNum] . sval, val, l + 1);
+
+22: Code quality: Many constants are common to atbas.y and omgwtf2.c (token
+    values) yet they are independently defined in each file, with inconsistent
+    spellings.
+
+23: Documentation: The token values for the BASIC operands have 0x100 added
+    to them in atbas.y to distinguish them the token values, causing 
+    a sprinkling of "& 0x7f" expressions in the file; all without
+    documentation.
+
+24: Documentation: The routine yylex() is very fragile; it is a state machine
+    whose state is manipulated by the control flow code, without a line of
+    documentation.
+
+25: Documentation: The routine interpret() is a marvel of simplicity whose
+    behavior is controlled entirely be outside processes using longjmp and
+    YYACCEPT without a shred of documentation.
+
+26: Code quality: YYSTYPE is defined independently in omgwtf2.c and atbas.y.
+    This arises because yylex() properly belongs in atbas.y where it can
+    see the natural definition. Yylex() is in omgwtf2.c because is was
+    first written, under a different name, before bison was in play.
+
+27: Code quality: Atbas.y only defines enough of Atari BASIC to run the
+    legacy application. The missing bits are simply elided, usually without 
+    comment, sometimes a yyerror().
+
+
+
