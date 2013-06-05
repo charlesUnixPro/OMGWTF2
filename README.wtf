@@ -221,7 +221,8 @@ the ".atr" file.
 
 27: Code quality: Atbas.y only defines enough of Atari BASIC to run the
     legacy application. The missing bits are simply elided, usually without 
-    comment, sometimes a yyerror().
+    comment, but sometimes a yyerror().
 
+28: Code quality: Atbas.y has seven shift/reduce conflicts.
 
 
