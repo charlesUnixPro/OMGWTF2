@@ -12,11 +12,28 @@ omgwtf2.c       Main source code
 omgwtf2.h       Main include file
 atbas.y         Bison file for interpreting Atari BASIC tokenized code
 "Executive Decision Maker.atr"
-                Actual decision making program
+                Actual decision making program (*)
 gpl-2.0.txt     GPL License text
 Makefile
 omgwtf2         The contest entry
 README.wtf      The WTF notes for the entry
+
+SPECIAL NOTE ABOUT "Executive Decision Maker.atr"
+=================================================
+
+This is a disk image of an apparently abandonware product.
+It contains an internal copyright:
+
+   COPYRIGHT (C) 1987 FIRST BYTE
+   P.O. BOX 130822
+   TYLER, TX 75713-0822
+
+A brief search of the web turned up no trace of First Byte.
+
+The image was downloaded from www.atarimania.com. 
+
+The image is used in an unaltered form in the contest.
+
 
 COPYRIGHT
 =========
