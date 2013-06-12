@@ -225,4 +225,16 @@ the ".atr" file.
 
 28: Code quality: Atbas.y has seven shift/reduce conflicts.
 
+29: Code quality: The use of randu(), a notoriously bad random number
+    generator.
+
+30: Code quality: The pseudo-random number generator is seeded with
+    a constant value, causing the application to return the the
+    sequence of responses for the same input data on different runs.
+
+31: Engineering quality: No test cases.
+
+32: Documentation: The OMGWTF2 entry form specifies that this 
+    application (may) rely on srand48(); it actually (may) rely
+    on randu().
 

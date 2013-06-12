@@ -1077,6 +1077,18 @@ static void updateLastKBChar (void)
       }
   }
 
+static int iseed;
+
+static float randu (int * iseed)
+  {
+    int IMAX = 2147483647;
+    float XMAX_INV = 1. / (float) IMAX;
+    * iseed = * iseed * 65539;
+    if (* iseed < 0)
+      * iseed = * iseed + IMAX + 1;
+    return * iseed * XMAX_INV;
+  }
+
 double evalFunc (int func, double arg)
   {
     //fprintf (logFile, "eval func %x %g\n", func, arg);
@@ -1105,7 +1117,7 @@ double evalFunc (int func, double arg)
       }
     else if (func == opRnd)
       {
-        double v = drand48 ();
+        double v = randu (& iseed);
         return v;
       }
     else
@@ -1620,7 +1632,7 @@ int main (int argc, char * argv [])
     setvbuf (logFile, NULL, _IONBF, 0);
 #endif
 
-    srand48 (time (NULL));
+    iseed = 12345;
 
     lastKBChar = 255;
 
