@@ -9,8 +9,12 @@ MANIFEST
 
 README.md       This file
 omgwtf2.c       Main source code
+omgwtf2_annotated.c
+                The same as omgwtf2.c, but with WTF annotation comments
 omgwtf2.h       Main include file
 atbas.y         Bison file for interpreting Atari BASIC tokenized code
+atbas_annotated.y
+                The same as atbas.y, but with WTF annotation comments.
 "Executive Decision Maker.atr"
                 Actual decision making program (*)
 gpl-2.0.txt     GPL License text
@@ -44,6 +48,8 @@ Licensed under GPL 2.0
 
 INSTRUCTIONS
 ============
+
+Fetch the executable (omgwtf2) and the data file (Executive Decision Maker.atr)
 
 On a Linux box, run the executable:
 
