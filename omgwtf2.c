@@ -153,7 +153,15 @@ static void readAtrFile (const char * name)
     if (sizeof (struct header) != 16)
       fatalN ("struct header wrong size", sizeof (struct header));
 
-    fd = open (name, O_RDONLY);
+#ifndef O_BINARY
+# ifdef _O_BINARY
+#  define O_BINARY  _O_BINARY
+# else
+#  define O_BINARY  0
+# endif
+#endif
+
+    fd = open (name, O_RDONLY | O_BINARY);
     if (fd == -1)
       fatalErrno ("opening ATR file", errno);
 
@@ -932,7 +940,7 @@ void doInput (int varNum)
         ch = getch ();
         if (ch == -1)
           break;
-        if (ch == 0xa)
+        if (ch == 0xa || ch == 0xd)
           break;
         if (i < maxlen)
           variableTable [varNum] . sval [i + 1] = ch;
