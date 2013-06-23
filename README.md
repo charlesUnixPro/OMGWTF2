@@ -1,11 +1,11 @@
 OMGWTF2
-=======
+-------
 
 OMGWTF2 contest entry.
 
 
 MANIFEST
-========
+--------
 
     README.md       This file   
     omgwtf2.c       Main source code   
@@ -26,7 +26,7 @@ MANIFEST
     README.wtf      The WTF notes for the entry   
 
 SPECIAL NOTE ABOUT "Executive Decision Maker.atr"
-=================================================
+-------------------------------------------------
 
 This is a disk image of an apparently abandonware product.
 It contains an internal copyright:
@@ -43,14 +43,14 @@ The image is used in an unaltered form in the contest.
 
 
 COPYRIGHT
-=========
+---------
 
 Copyright 2013 by Charles Anthony.   
 Licensed under GPL 2.0   
 
 
 INSTRUCTIONS
-============
+------------
 
 Fetch the executable (omgwtf2, omgwtf2_32 or omgwtf2_32.exe) and the data file 
 (Executive Decision Maker.atr)
