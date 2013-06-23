@@ -20,6 +20,7 @@ atbas_annotated.y
 gpl-2.0.txt     GPL License text
 Makefile
 omgwtf2         The contest entry
+omgwtf2_32      The contest entry, 32 bit
 README.wtf      The WTF notes for the entry
 
 SPECIAL NOTE ABOUT "Executive Decision Maker.atr"
@@ -49,11 +50,16 @@ Licensed under GPL 2.0
 INSTRUCTIONS
 ============
 
-Fetch the executable (omgwtf2) and the data file (Executive Decision Maker.atr)
+Fetch the executable (omgwtf2 or omgwtf2_32) and the data file (Executive 
+Decision Maker.atr)
 
 On a Linux box, run the executable:
 
     ./omgwtf2
+
+  or
+
+    ./omgwtf2_32
 
 You will see a splash screen; press any key to continue.
 
