@@ -25,6 +25,11 @@ omgwtf2_32.exe  The contest entry, 32 Windows executable
 
 README.wtf      The WTF notes for the entry
 
+globals.h       || An attempt to translate the app to COBOL, but I ran
+omgwtf2_cob.cob || out of time. Do not read this not without expecting
+omgwtf2_cob.h   || your eyes to bleed.
+atbas_cob.y    
+
 SPECIAL NOTE ABOUT "Executive Decision Maker.atr"
 =================================================
 
